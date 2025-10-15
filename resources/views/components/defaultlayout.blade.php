@@ -8,21 +8,13 @@
 
     @vite('resources/css/app.css')
 </head>
-<body>
-    <nav class="max-w-screen flex justify-end bg-orange-500">
-        <div class="flex mr-auto"><a href="">
-            <img src="{{ asset('storage/Simpsons_Donut.svg')}}" alt="">
-            <p>Comic Relief</p>
-        </a></div>
-
-        <div class="flex"><ul>
-            <li><a href="">Comic List</a></li>
-            <li><a href="">Search by Cover</a></li>
-        </ul></div>
-    </nav>
-    
-    <nav class="max-w-screen sticky flex justify-end items-center text-center py-4 px-8 m-6 mb-10 top-0 shadow-md bg-emerald-50 z-10">
-            <p class="mr-auto font-rocksalt font-bold text-2xl hover:text-red-400 transition ease-out duration-150"><a href="index.html">Abid H.</a></p>
+<body class="max-w-screen">
+    {{-- Navbar --}}
+    <nav class="max-w-screen sticky flex justify-end items-center text-center py-4 px-8 m-6 mb-10 top-0 shadow-md bg-slate-700 text-white z-10">
+            <div class="mr-auto h-10 flex"><a href="">
+                <img class="inline-block h-full object-contain" src="{{ asset('storage/images/navbar/Simpsons_Donut.svg')}}" alt="">
+                <p class="inline-block">Comic Relief</p>
+            </a></div>
             <ul class="flex">
                 <li class="line-block pr-5 font-plexmono tracking-tighter text-2xl hover:text-sky-400 transition ease-out duration-150"><a class="textFade" href="quiz1/hometown.html">Hometown</a></li>
                 <li class="line-block pr-5 font-plexmono tracking-tighter text-2xl hover:text-sky-400 transition ease-out duration-150"><a class="textFade" href="quiz1/food.html">Foods</a></li>
@@ -31,7 +23,7 @@
             </ul>
         </nav> 
 
-    <main class="container">
+    <main class="items-center bg-red-500 m-6">
         {{ $slot }}
     </main>
     
