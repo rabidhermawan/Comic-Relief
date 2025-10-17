@@ -11,16 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('comics', function (Blueprint $table) {
+        Schema::create('comic_pages', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('title');
-            $table->string('description');
-            $table->string('path');
-            $table->integer('page_count');
-            // Please add users later
-            //TODO : Add genre
+            $table->foreignId('comic_id')->constrained()->onDelete('cascade');
+            $table->integer('page_number');
+            $table->string('filename')->nullable();
 
+            $table->unique(['comic_id', 'page_number']);
         });
     }
 
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('comics');
+        Schema::dropIfExists('comic_pages');
     }
 };

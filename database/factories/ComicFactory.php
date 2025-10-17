@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Comic;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -14,12 +15,28 @@ class ComicFactory extends Factory
      *
      * @return array<string, mixed>
      */
+    
+
     public function definition(): array
     {
         return [
             'title' => fake()->words(3, true),
             'description' => fake()->sentence(),
-            'path' => 'placeholder'
+            'path' => 'placeholder',
+            'page_count' => 10
         ];
+    }
+
+    public function withPages(int $pageCount = 10){
+        return $this->afterCreating(function (Comic $comic) use ($pageCount) {
+            for ($i = 1; $i <= $pageCount; $i++) {
+                $comic->pages()->create([
+                    'page_number' => $i,
+                    'filename' => "{$i}.jpg",
+                ]);
+            }
+
+            $comic->update(['page_count' => $pageCount]);
+        });
     }
 }
