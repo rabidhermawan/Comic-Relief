@@ -16,8 +16,8 @@
                 <p class="inline-block">Comic Relief</p>
             </a></div>
             <ul class="flex">
-                <li class="line-block pr-5 font-plexmono tracking-tighter text-2xl hover:text-sky-400 transition ease-out duration-150"><a class="textFade" href="/comicsearch">Search</a></li>
-                <li class="line-block pr-5 font-plexmono tracking-tighter text-2xl hover:text-sky-400 transition ease-out duration-150"><a class="textFade" href="/comicupload">Upload</a></li>
+                <li class="line-block pr-5 font-plexmono tracking-tighter text-2xl hover:text-sky-400 transition ease-out duration-150"><a class="textFade" href="/search">Search</a></li>
+                <li class="line-block pr-5 font-plexmono tracking-tighter text-2xl hover:text-sky-400 transition ease-out duration-150"><a class="textFade" href="{{ route('comic.upload') }}">Upload</a></li>
                 <li class="line-block pr-5 font-plexmono tracking-tighter text-2xl hover:text-sky-400 transition ease-out duration-150"><a class="textFade" href="/profile">Profile</a></li>
             </ul>
         </nav> 

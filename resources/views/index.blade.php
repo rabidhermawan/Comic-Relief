@@ -6,9 +6,9 @@
         @foreach ($comics as $comic)
         <li>
             <x-comic-card 
-                coversrc="{{ asset('storage/' . $comic['path'] . '/cover.jpg') }}" 
-                title="{{ $comic['title'] }}"
-                href="/comic/{{ $comic['id'] }}"
+                coversrc="{{ asset('storage/' . $comic->path . '/cover.jpg') }}" 
+                title="{{ $comic->title }}"
+                href="{{ route('comic.detail', $comic->id) }}"
             />
         </li>
         @endforeach
