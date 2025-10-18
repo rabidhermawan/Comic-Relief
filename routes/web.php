@@ -15,7 +15,7 @@ Route::get('/upload', [ComicController::class, 'upload'])->name('comic.upload');
 
 Route::get('/comic/{id}', [ComicController::class, 'details'])->name('comic.detail');
 
-Route::get('/comic/{id}/read/{pagenum}', [ComicController::class, 'read'])->name('comic.read');
+Route::get('/comic/{id}/read/{page_number}', [ComicController::class, 'read'])->name('comic.read');
 
 
 //For account stuff

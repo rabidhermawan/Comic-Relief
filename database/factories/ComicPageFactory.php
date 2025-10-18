@@ -19,9 +19,9 @@ class ComicPageFactory extends Factory
     public function definition(): array
     {
         return [
-            'comic_id' => Comic::factory(), // Create one if not exists
+            'comic_id' => Comic::factory(), // Create one if not existss
             'page_number' => $this->faker->unique()->numberBetween(1, 50),
-            'file_name' => fn (array $attrs) => "{$attrs['page_number']}.jpg",
+            'filename' => fn (array $attrs) => "{$attrs['page_number']}.jpg",
         ];
     }
 }

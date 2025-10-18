@@ -17,10 +17,16 @@ class ComicController extends Controller
     //Show selected comics
     public function details($id) {
         $comic = Comic::findOrFail($id);
-        // $pages = $this->$comic->pages()->orderBy('page_number');
-        // return view('comic.detail', ["comic" => $comic, "pages" => $pages]);
-        return view('comic.detail', ["comic" => $comic]);
+        $pages = $comic->pages()->orderBy('page_number')->get();
+        return view('comic.detail', ["comic" => $comic, "pages" => $pages]);
     }
+
+    public function read($id, $page_number) {
+        $comic = Comic::findOrFail($id);
+        $pages = $comic->pages()->orderBy('page_number')->paginate(1);
+        return view('comic.read', ["comic" => $comic, "pages" => $pages]);
+    }
+
 
     // Create comic entry, should calls ComicPage model too (WIP man.....)
     public function upload() {
