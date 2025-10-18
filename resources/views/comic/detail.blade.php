@@ -5,10 +5,18 @@
         </div>
         <div class="bg-blue-200 text-left min-w-100 max-w-150">
             <p>Comic - #{{ $comic->id }}</p>
-            <h1>{{ $comic->title }}</h1>
+            <h1 class="font-bold uppercase">{{ $comic->title }}</h1>
     
             <br>
             <p>Description : {{ $comic->description }}</p>
+            <br>
+            <p>Genres : </p>
+            <ol>
+                @foreach ($genres as $genre)
+                    <li>- {{$genre->genre}}</li>
+                @endforeach
+            </ol>
+
             <br>
             <p>Page count : {{ $comic->page_count }} </p>
             <br>

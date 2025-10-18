@@ -18,7 +18,8 @@ class ComicController extends Controller
     public function details($id) {
         $comic = Comic::findOrFail($id);
         $pages = $comic->pages()->orderBy('page_number')->get();
-        return view('comic.detail', ["comic" => $comic, "pages" => $pages]);
+        $genres = $comic->genres()->orderBy('genre')->get();
+        return view('comic.detail', ["comic" => $comic, "pages" => $pages, "genres" => $genres]);
     }
 
     public function read($id, $page_number) {

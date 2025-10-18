@@ -13,6 +13,6 @@ class ComicSeeder extends Seeder
      */
     public function run(): void
     {
-        Comic::factory()->count(100)->withPages(10)->create();
+        Comic::factory()->count(100)->withGenres()->withPages(10)->create();
     }
 }
