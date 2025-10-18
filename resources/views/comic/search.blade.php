@@ -1,3 +1,3 @@
 <x-defaultlayout>
-    
+
 </x-defaultlayout>

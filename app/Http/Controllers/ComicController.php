@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comic;
+use App\Models\Genre;
 use Illuminate\Http\Request;
 
 class ComicController extends Controller
@@ -22,6 +23,8 @@ class ComicController extends Controller
         return view('comic.detail', ["comic" => $comic, "pages" => $pages, "genres" => $genres]);
     }
 
+
+
     public function read($id, $page_number) {
         $comic = Comic::findOrFail($id);
         $pages = $comic->pages()->orderBy('page_number')->paginate(1);
@@ -31,10 +34,15 @@ class ComicController extends Controller
 
     // Create comic entry, should calls ComicPage model too (WIP man.....)
     public function upload() {
-        return view('comic.upload');
+        $genres = Genre::orderBy('genre')->get();
+        return view('comic.upload', ["genres" => $genres]);
     }
     
+    public function search() {
+        
+    }
+
     public function store() {
-    
+        
     }
 }
