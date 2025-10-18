@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Zip;
 use App\Models\Comic;
 use App\Models\Genre;
 use Illuminate\Http\Request;
@@ -42,7 +43,21 @@ class ComicController extends Controller
         
     }
 
-    public function store() {
-        
+    public function store(Request $request) {
+        $validated = $request->validate([
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'genres' => 'required|string',
+            'file' => 'required|file|mimetypes:application/zip,application/x-zip-compressed',
+        ]);
+
+        $uploadedFile = $request->file('comicblob');
+        $tempZip= Zip::open($uploadedFile->getPathname());
+
+        if (!$tempZip->has('cover.jpg')) {
+            
+        }
+
+
     }
 }
