@@ -9,6 +9,11 @@
     @vite('resources/css/app.css')
 </head>
 <body class="max-w-screen">
+    @if (session('success'))
+    <div id="flash" class="p-4 text-center bg-green-50 text-green-500 font-bold">
+        {{ session('success') }}
+    </div>
+    @endif
     {{-- Navbar --}}
     <nav class="max-w-screen sticky flex justify-end items-center text-center py-4 px-8 m-6 mb-10 top-0 shadow-md bg-slate-700 text-white z-10">
             <div class="mr-auto h-10 flex"><a href="/">

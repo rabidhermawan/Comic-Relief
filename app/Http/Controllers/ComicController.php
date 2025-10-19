@@ -124,7 +124,7 @@ class ComicController extends Controller
 
         });
 
-        return redirect()->route('comic.index');
+        return redirect()->route('comic.index')->with('success', $request->title . ' was successfully uploaded!');
 
         
     }
