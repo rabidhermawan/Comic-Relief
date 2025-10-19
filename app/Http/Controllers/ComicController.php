@@ -20,8 +20,7 @@ class ComicController extends Controller
     }
 
     //Show selected comics
-    public function details($id) {
-        $comic = Comic::findOrFail($id);
+    public function details(Comic $comic) {
         $pages = $comic->pages()->orderBy('page_number')->get();
         $genres = $comic->genres()->orderBy('genre')->get();
         return view('comic.detail', ["comic" => $comic, "pages" => $pages, "genres" => $genres]);
@@ -127,5 +126,12 @@ class ComicController extends Controller
         return redirect()->route('comic.index')->with('success', $request->title . ' was successfully uploaded!');
 
         
+    }
+
+    public function delete(Comic $comic) {
+        $comicTitle = $comic->title;
+        $comic->delete();
+
+        return redirect()->route('comic.index')->with('success', $comicTitle . ' was successfully deleted!');
     }
 }

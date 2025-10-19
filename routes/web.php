@@ -11,10 +11,11 @@ Route::get('/search', [ComicController::class, 'search'])->name('comic.search');
 
 //Upload comic
 Route::get('/upload', [ComicController::class, 'upload'])->name('comic.upload');
-Route::post('/', [ComicController::class, 'store'])->name('comic.store');
+Route::post('/comic/store', [ComicController::class, 'store'])->name('comic.store');
 
 // For reading comics
-Route::get('/comic/{id}', [ComicController::class, 'details'])->name('comic.detail');
+Route::get('/comic/{comic}', [ComicController::class, 'details'])->name('comic.detail');
+Route::delete('/comic/{comic}', [ComicController::class, 'delete'])->name('comic.delete');
 Route::get('/comic/{id}/read/{page_number}', [ComicController::class, 'read'])->name('comic.read');
 
 

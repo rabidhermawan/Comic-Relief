@@ -22,6 +22,13 @@
             <br>
             <p>Created at : {{ $comic->created_at }}</p>
             <p>Updated at : {{ $comic->updated_at }}</p>
+
+            <form action="{{ route('comic.delete', $comic->id) }}" method="POST">
+                @csrf
+                @method('DELETE')
+
+                <button type="submit" class="btn my-4">Delete Comic</button>
+            </form>
         </div>
     </div>
 
