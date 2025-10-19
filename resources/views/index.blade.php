@@ -6,7 +6,7 @@
         @foreach ($comics as $comic)
         <li>
             <x-comic-card 
-                coversrc="{{ asset('storage/' . $comic->path . '/cover-small.jpg') }}" 
+                coversrc="{{ Storage::url($comic->path.'/cover-small.jpg') }}" 
                 title="{{ $comic->title }}"
                 href="{{ route('comic.detail', $comic->id) }}"
             />

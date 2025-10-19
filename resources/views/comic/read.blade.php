@@ -4,7 +4,7 @@
         
         @foreach ($pages as $page)
         <div class="">
-            <img src="{{ asset('storage/' . $comic->path . '/pages/' . $page->filename) }}" alt="Page {{ $page->page_number }}">
+            <img src="{{ Storage::url($comic->path.'/pages/'.$page->filename) }}" alt="Page {{ $page->page_number }}">
         </div>
         
         @endforeach

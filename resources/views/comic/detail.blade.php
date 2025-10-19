@@ -1,7 +1,7 @@
 <x-defaultlayout>
     <div class="flex items-start justify-center">
         <div class="aspect-2/3 min-w-50 max-w-85">
-            <img src="{{ asset('storage/' . $comic->path . '/cover.jpg') }}" alt="">
+            <img src="{{ Storage::url($comic->path.'/cover.jpg') }}" alt="">
         </div>
         <div class="bg-blue-200 text-left min-w-100 max-w-150">
             <p>Comic - #{{ $comic->id }}</p>
@@ -32,7 +32,7 @@
         @foreach ($pages as $page)
             <li>
                 <div class="aspect-2/3 max-w-35 mx-3"><a href="{{ route('comic.read', ['id' => $comic->id, 'page_number' =>$page->page_number]) }}"">
-                    <img src="{{ asset('storage/' . $comic->path . '/pages/'. $page->filename) }}" alt="">
+                    <img src="{{ Storage::url($comic->path.'/pages/'.$page->filename) }}" alt="">
                     <p>Page - {{ $page->page_number }}</p>
                 </a></div>
             </li>

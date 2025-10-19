@@ -10,5 +10,5 @@ class ComicPage extends Model
     /** @use HasFactory<\Database\Factories\ComicPageFactory> */
     use HasFactory;
 
-    protected $fillable = ['page_number', 'filename'];
+    protected $fillable = ['comic_id', 'page_number', 'filename'];
 }

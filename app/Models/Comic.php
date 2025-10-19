@@ -11,7 +11,7 @@ class Comic extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'path', 'last_modified'];
+    protected $fillable = ['title', 'description', 'path', 'page_count'];
 
     
     public function pages(): HasMany
