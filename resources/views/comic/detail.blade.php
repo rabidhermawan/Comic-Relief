@@ -1,8 +1,11 @@
 <x-defaultlayout>
     <div class="flex items-start justify-center">
+        {{-- Cover Image --}}
         <div class="aspect-2/3 min-w-50 max-w-85">
             <img src="{{ Storage::url($comic->path.'/cover.jpg') }}" alt="">
         </div>
+
+        {{-- Comic Details --}}
         <div class="bg-blue-200 text-left min-w-100 max-w-150">
             <p>Comic - #{{ $comic->id }}</p>
             <h1 class="font-bold uppercase">{{ $comic->title }}</h1>
@@ -23,12 +26,17 @@
             <p>Created at : {{ $comic->created_at }}</p>
             <p>Updated at : {{ $comic->updated_at }}</p>
 
+            {{-- Delete Comic --}}
             <form action="{{ route('comic.delete', $comic->id) }}" method="POST">
                 @csrf
                 @method('DELETE')
 
-                <button type="submit" class="btn my-4">Delete Comic</button>
+                <button type="submit" class="bg-red-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">Delete</button>
             </form>
+
+            {{-- Update Comic --}}
+            <a href="{{ route('comic.update', $comic->id) }}"><button  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Update</button></a>
+
         </div>
     </div>
 

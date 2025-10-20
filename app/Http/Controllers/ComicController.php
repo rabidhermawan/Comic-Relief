@@ -14,7 +14,7 @@ class ComicController extends Controller
 {
     // Returns all comics in Database
     public function index() {
-        $comics = Comic::orderBy('created_at', 'asc')->get();
+        $comics = Comic::orderBy('id', 'asc')->get();
 
         return view('index', ['comics' => $comics]);
     }
@@ -127,8 +127,6 @@ class ComicController extends Controller
         });
 
         return redirect()->route('comic.index')->with('success', $request->title . ' was successfully uploaded!');
-
-        
     }
 
     public function delete(Comic $comic) {
@@ -136,5 +134,49 @@ class ComicController extends Controller
         $comic->delete();
 
         return redirect()->route('comic.index')->with('success', $comicTitle . ' was successfully deleted!');
+    }
+
+    public function update(Comic $comic) {
+        return view('comic.update', ['comics' => $comic]);
+    }
+
+    public function pushUpdate(Request $request, Comic $comic) {
+        
+        // Check if the genres inputted are in the database
+        $inputtedGenres = array_map('trim', explode(',', $request->input('genres')));
+        $request->merge(['genres' => $inputtedGenres]);
+        
+        $validated = $request->validate([
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'genres' => 'required|array|min:1',
+            'genres.*' => 'exists:genres,genre',
+        ]);
+
+        DB::transaction(function () use ($validated, $inputtedGenres, $comic) {
+            // Update entries to the comic
+            $comic = Comic::findOrFail($comic->id);
+            $comic->update([
+                'title' => $validated['title'],
+                'description' => $validated['description'],
+            ]);
+
+            //$comic->refresh();
+            
+            //dd($comic->id, $comic->exists, $comic->getTable(), get_class($comic));
+
+            // Detach then attach genres to the entry
+            $genreIds = Genre::whereIn('genre', $validated['genres'])->pluck('id');
+            $comic->genres()->detach();
+            $comic->genres()->sync($genreIds);
+            // $genreIds = Genre::whereIn('genre', $validated['genres'])->pluck('id');
+            // $updatedComic->genres()->detach();
+            // $updatedComic->genres()->attach($genreIds);
+        });
+
+        $pages = $comic->pages()->orderBy('page_number')->get();
+        $genres = $comic->genres()->orderBy('genre')->get();
+
+        return redirect()->route('comic.detail', ["comic" => $comic, "pages" => $pages, "genres" => $genres])->with('success', $validated['title'] . ' was successfully updated!');
     }
 }
