@@ -136,9 +136,14 @@ class ComicController extends Controller
     }
 
     public function delete(Comic $comic) {
+        // Delete comic from the storage
         $comicTitle = $comic->title;
+        $comicIdPath = strval($comic->id);
+        Storage::disk('public')->deleteDirectory($comicIdPath);
+        
+        // Delete entries of the comic
         $comic->delete();
-
+        
         return redirect()->route('comic.index')->with('success', $comicTitle . ' was successfully deleted!');
     }
 
