@@ -18,9 +18,7 @@ return new class extends Migration
             $table->string('description');
             $table->string('path');
             $table->integer('page_count');
-            // Please add users later
-            //TODO : Add genre
-
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
         });
     }
 

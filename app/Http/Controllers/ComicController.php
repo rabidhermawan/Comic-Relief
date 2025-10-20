@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use Zip;
 use App\Models\Comic;
 use App\Models\Genre;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 
 
 class ComicController extends Controller
@@ -24,7 +27,9 @@ class ComicController extends Controller
     public function details(Comic $comic) {
         $pages = $comic->pages()->orderBy('page_number')->get();
         $genres = $comic->genres()->orderBy('genre')->get();
-        return view('comic.detail', ["comic" => $comic, "pages" => $pages, "genres" => $genres]);
+        $user = $comic->user()->get();
+        // return view('comic.detail', ["comic" => $comic, "pages" => $pages, "genres" => $genres, "user" => $user]);
+        return view('comic.detail', ["comic" => $comic, "pages" => $pages, "user" => $user]);
     }
 
     public function read($id, $page_number) {
@@ -62,6 +67,8 @@ class ComicController extends Controller
             'file' => 'required|file|mimes:zip',
         ]);
 
+        // dd(auth()->check(), auth()->user());
+
         return DB::transaction(function () use ($validated, $request, $inputtedGenres) {
             // Check file if it contains the bare minimum to be a comic
             // Store the uploaded zip file in temporary folder
@@ -76,13 +83,14 @@ class ComicController extends Controller
                 Storage::disk('temp')->delete($uploadedFileTempName);
                 return back()->withErrors('ZIP doesn\'t contains either cover and/or its small version or a page');
             }
-            
+
             //Create entry in comic
             $insertedComic = Comic::create([
                 'title' => $request->input('title'),
                 'description' => $request->input('description'),
                 'path' => 'placeholder',
                 'page_count' => 10,
+                'user_id' => Auth::id()
             ]);
 
             // Attach genres to the entry
@@ -148,11 +156,14 @@ class ComicController extends Controller
     }
 
     public function update(Comic $comic) {
-        return view('comic.update', ['comics' => $comic]);
+        if (Gate::authorize('modify-comic', $comic)){
+            return view('comic.update', ['comics' => $comic]);
+        }
+        
     }
 
     public function pushUpdate(Request $request, Comic $comic) {
-        
+        $this->authorize('modify-comic', $comic);
         // Check if the genres inputted are in the database
         $inputtedGenres = array_map('trim', explode(',', $request->input('genres')));
         $request->merge(['genres' => $inputtedGenres]);
@@ -186,8 +197,7 @@ class ComicController extends Controller
         });
 
         $pages = $comic->pages()->orderBy('page_number')->get();
-        $genres = $comic->genres()->orderBy('genre')->get();
 
-        return redirect()->route('comic.detail', ["comic" => $comic, "pages" => $pages, "genres" => $genres])->with('success', $validated['title'] . ' was successfully updated!');
+        return redirect()->route('comic.detail', ["comic" => $comic, "pages" => $pages])->with('success', $validated['title'] . ' was successfully updated!');
     }
 }

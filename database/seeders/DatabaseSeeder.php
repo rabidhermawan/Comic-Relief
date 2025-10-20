@@ -3,8 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Comic;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,17 +15,24 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(1)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
-
         $this->call([
             
             GenreSeeder::class,
-            ComicSeeder::class,
+            // ComicSeeder::class,
         ]);
+        
+        User::factory()->has(
+            Comic::factory()
+            ->count(100)
+            ->withGenres()
+            ->withPages(10)
+        )->create([
+            'name' => 'Admin',
+            'email' => 'admin@admin.com',
+        ]);
+
+        User::factory(1)->create();
+
+        
     }
 }

@@ -7,10 +7,9 @@ use App\Http\Controllers\AuthController;
 // Main screen
 Route::get('/', [ComicController::class, 'index'])->name('comic.index');
 
+Route::post('/logout',[AuthController::class, 'logout'])->name('auth.logout');
 //For account stuff
 Route::middleware('guest')->controller(AuthController::class)->group(function() {
-    Route::post('/logout','logout')->name('auth.logout');
-
     Route::get('/register','registerShow')->name('auth.registerPage');
     Route::post('/register','register')->name('auth.register');
 
@@ -19,14 +18,14 @@ Route::middleware('guest')->controller(AuthController::class)->group(function() 
 });
 
 
-Route::middleware('auth')->controller(ComicController::class)->group(function( ){
-    Route::get('/upload', 'upload')->name('comic.upload')->middleware('auth');
+Route::middleware('auth')->controller(ComicController::class)->group(function() {
+    Route::get('/upload', 'upload')->name('comic.upload');
     Route::post('/comic/store', 'store')->name('comic.store');
 
-    Route::delete('/comic/{comic}', 'delete')->name('comic.delete');
+    Route::delete('/comic/{comic}', 'delete')->name('comic.delete')->middleware('can:modify-comic,comic');;
 
     Route::get('/comic/update/{comic}', 'update')->name('comic.update');
-    Route::post('/comic/{comic}/push-update', 'pushUpdate')->name('comic.pushUpdate');
+    Route::post('/comic/{comic}/push-update', 'pushUpdate')->name('comic.pushUpdate')->middleware('can:modify-comic,comic');;
 });
 
 

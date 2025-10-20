@@ -13,9 +13,11 @@
             <br>
             <p>Description : {{ $comic->description }}</p>
             <br>
+            <p>Uploaded by : {{ $comic->user->name }}</p>
+            <br>
             <p>Genres : </p>
             <ol>
-                @foreach ($genres as $genre)
+                @foreach ($comic->genres as $genre)
                     <li>- {{$genre->genre}}</li>
                 @endforeach
             </ol>
@@ -27,16 +29,21 @@
             <p>Updated at : {{ $comic->updated_at }}</p>
 
             {{-- Delete Comic --}}
-            <form action="{{ route('comic.delete', $comic->id) }}" method="POST">
+            @auth
+            @if (Auth::id() === $comic->user->id )
+                <form action="{{ route('comic.delete', $comic->id) }}" method="POST">
                 @csrf
                 @method('DELETE')
 
                 <button type="submit" class="bg-red-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">Delete</button>
-            </form>
+                </form>
 
-            {{-- Update Comic --}}
-            <a href="{{ route('comic.update', $comic->id) }}"><button  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Update</button></a>
+                {{-- Update Comic --}}
+                <a href="{{ route('comic.update', $comic->id) }}"><button  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Update</button></a>
+            @endif
+            @endauth
 
+            
         </div>
     </div>
 
@@ -44,7 +51,7 @@
 
     <div class="bg-amber-100 max-w-500 justify-center items-center">
         <ul class="flex flex-wrap items-center text-center justify-center">
-        @foreach ($pages as $page)
+            @foreach ($pages as $page)
             <li>
                 <div class="aspect-2/3 max-w-35 mx-3"><a href="{{ route('comic.read', ['id' => $comic->id, 'page_number' =>$page->page_number]) }}"">
                     <img src="{{ Storage::url($comic->path.'/pages/'.$page->filename) }}" alt="">
