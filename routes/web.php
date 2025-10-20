@@ -8,6 +8,7 @@ Route::get('/', [ComicController::class, 'index'])->name('comic.index');
 
 //Search
 Route::get('/search', [ComicController::class, 'search'])->name('comic.search');
+Route::get('/getSearch', [ComicController::class, 'getSearch'])->name('comic.getSearch');
 
 //Upload comic
 Route::get('/upload', [ComicController::class, 'upload'])->name('comic.upload');

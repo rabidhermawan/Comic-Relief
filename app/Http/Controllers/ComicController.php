@@ -35,13 +35,16 @@ class ComicController extends Controller
 
     // Create comic entry, should calls ComicPage model too (WIP man.....)
     public function upload() {
-        $genres = Genre::orderBy('genre')->get();
-        return view('comic.upload', ["genres" => $genres]);
+        return view('comic.upload');
     }
     
     public function search() {
-        $comics = Comic::orderBy('created_at', 'asc')->get();
+        $comics = NULL;
+        return view('comic.search', ['comics' => $comics]);
+    }
 
+    public function getSearch(Request $request) {
+        $comics = Comic::where('title', 'ilike', '%' . $request->searchquery . '%' )->paginate(25);
         return view('comic.search', ['comics' => $comics]);
     }
 
