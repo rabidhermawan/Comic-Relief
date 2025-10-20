@@ -34,7 +34,10 @@ class ComicController extends Controller
 
     public function read($id, $page_number) {
         $comic = Comic::findOrFail($id);
-        $pages = $comic->pages()->orderBy('page_number')->paginate(1);
+        $pages = $comic->pages()
+                       ->orderBy('page_number')
+                       ->paginate(1,['*'], 'page', $page_number);
+        
         return view('comic.read', ["comic" => $comic, "pages" => $pages]);
     }
 
