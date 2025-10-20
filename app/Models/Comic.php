@@ -23,4 +23,5 @@ class Comic extends Model
     {
         return $this->belongsToMany(Genre::class);
     }
+
 }

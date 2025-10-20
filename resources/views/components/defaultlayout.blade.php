@@ -21,9 +21,22 @@
                 <p class="inline-block">Comic Relief</p>
             </a></div>
             <ul class="flex">
-                <li class="line-block pr-5 font-plexmono tracking-tighter text-2xl hover:text-sky-400 transition ease-out duration-150"><a class="textFade" href="/search">Search</a></li>
-                <li class="line-block pr-5 font-plexmono tracking-tighter text-2xl hover:text-sky-400 transition ease-out duration-150"><a class="textFade" href="{{ route('comic.upload') }}">Upload</a></li>
-                <li class="line-block pr-5 font-plexmono tracking-tighter text-2xl hover:text-sky-400 transition ease-out duration-150"><a class="textFade" href="/profile">Profile</a></li>
+                <li class="line-block pr-5 font-plexmono tracking-tighter text-2xl hover:text-sky-400 transition ease-out duration-150"><a class="textFade" href="{{ route('comic.search') }}">Search</a></li>
+                
+                @guest
+                    <li class="line-block pr-5 font-plexmono tracking-tighter text-2xl hover:text-sky-400 transition ease-out duration-150"><a class="textFade" href="{{ route('auth.loginPage') }}">Login</a></li>
+                @endguest
+                @auth
+                    <li class="line-block pr-5 font-plexmono tracking-tighter text-2xl hover:text-sky-400 transition ease-out duration-150"><a class="textFade" href="{{ route('comic.upload') }}">Upload</a></li>
+                    <li class="line-block pr-5 font-plexmono tracking-tighter text-2xl transition ease-out duration-150">{{ Auth::user()->name }} |</li>
+                    <li class="line-block pr-5 font-plexmono tracking-tighter text-2xl hover:text-sky-400 transition ease-out duration-150">
+                    <form action="{{ route('auth.logout') }}" method="POST" class="m-0">
+                        @csrf
+                        <button class="btn">Logout</button>
+                    </form>
+                    </li>
+                
+                @endauth
             </ul>
         </nav> 
 
