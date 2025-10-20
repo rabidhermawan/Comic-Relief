@@ -8,6 +8,7 @@ use App\Models\Genre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 
 class ComicController extends Controller
@@ -61,7 +62,7 @@ class ComicController extends Controller
             'file' => 'required|file|mimes:zip',
         ]);
 
-        DB::transaction(function () use ($validated, $request, $inputtedGenres) {
+        return DB::transaction(function () use ($validated, $request, $inputtedGenres) {
             // Check file if it contains the bare minimum to be a comic
             // Store the uploaded zip file in temporary folder
             // Temp is defined in the config/filesystems.php btw
@@ -112,21 +113,26 @@ class ComicController extends Controller
             }
 
             // Unzip the file
-            $extractedPath = Storage::disk('public')->path(strval($insertedComic->id));
-            Storage::makeDirectory('public/' . $extractedPath);
+
+            $comicIdPath = strval($insertedComic->id);
+            Storage::disk('public')->makeDirectory($comicIdPath);
+            $extractedPath = Storage::disk('public')->path($comicIdPath);
             $tempZip->extract($extractedPath);
 
             //Delete temp file
+            Zip::open(Storage::disk('temp')->path($uploadedFileTempName));
             Storage::disk('temp')->delete($uploadedFileTempName);
+
             // Update the comic row
             $insertedComic->update([
                 'path' => strval($insertedComic->id),
                 'page_count' => $pageCount,
             ]);
 
+            return redirect()->route('comic.index')->with('success', $request->title . ' was successfully uploaded!');
         });
 
-        return redirect()->route('comic.index')->with('success', $request->title . ' was successfully uploaded!');
+        
     }
 
     public function delete(Comic $comic) {

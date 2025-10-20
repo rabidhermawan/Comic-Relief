@@ -26,6 +26,4 @@ Route::get('/comic/{id}/read/{page_number}', [ComicController::class, 'read'])->
 
 
 //For account stuff
-Route::get('/profile', function () {
-    return view('account.profile');
-});
+
