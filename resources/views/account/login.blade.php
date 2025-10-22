@@ -1,7 +1,7 @@
 <x-defaultlayout>
 <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
   <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-    <img src="" alt="Comic Relief" class="mx-auto h-10 w-auto" />
+    <img src="{{ Storage::url('images/logo-black-full.svg') }}" alt="Comic Relief" class="mx-auto h-10 w-auto" />
     <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-black">Sign in to your account</h2>
   </div>
 
