@@ -1,9 +1,5 @@
-<p align="center">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="mdassets/logo-white-full.svg">
-      <source media="(prefers-color-scheme: light)" srcset="mdassets/logo-black-full.svg">
-    </picture>
-</p>
+![Comic Relief](mdassets/logo-white-full.svg#gh-dark-mode-only)
+![Comic Relief](mdassets/logo-black-full.svg#gh-light-mode-only)
 
 # Comic Relief
 
