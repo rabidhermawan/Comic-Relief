@@ -1,10 +1,23 @@
 <x-defaultlayout>    
-    <div class="flex flex-wrap justify-center">
+    <div class="flex flex-wrap justify-center relative">
         @foreach ($pages as $page)
+        @if ($pages->currentPage() > 1)
+                <a href="{{ route('comic.read', ['id' => $comic->id, 'page_number' => $pages->currentPage() - 1]) }}"
+                   class="absolute top-0 left-0 w-1/2 h-full z-10"
+                   aria-label="Previous Page">
+                </a>
+            @endif
+        
+            @if ($pages->currentPage() < $pages->lastPage())
+                <a href="{{ route('comic.read', ['id' => $comic->id, 'page_number' => $pages->currentPage() + 1]) }}"
+                   class="absolute top-0 right-0 w-1/2 h-full z-10"
+                   aria-label="Next Page">
+                    {{-- This link is invisible but covers the right 50% --}}
+                </a>
+            @endif
         <div class="aspect-2/3 max-h-screen">
             <img class="pagetoread " src="{{ Storage::url($comic->path.'/pages/'.$page->filename) }}" alt="Page {{ $page->page_number }}">
-        </div>
-        
+        </div>        
         @endforeach
 
         
