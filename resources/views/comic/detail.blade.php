@@ -1,17 +1,17 @@
 <x-defaultlayout>
-    <div class="flex items-start justify-center">
+    <div class="inline-block rounded-2xl border-2 border-solid border-gray-300 p-5">
         {{-- Cover Image --}}
-        <div class="aspect-2/3 min-w-50 max-w-85">
+        <div class="inline-block p-5 aspect-2/3 max-w-85 mr-10">
             <img src="{{ Storage::url($comic->path.'/cover.jpg') }}" alt="">
         </div>
 
         {{-- Comic Details --}}
-        <div class="bg-blue-200 text-left min-w-100 max-w-150">
+        <div class="inline-block align-top text-left min-w-100 max-w-150 p-5">
             <p>Comic - #{{ $comic->id }}</p>
-            <h1 class="font-bold uppercase">{{ $comic->title }}</h1>
+            <h1 class="font-bold uppercase text-5xl">{{ $comic->title }}</h1>
     
             <br>
-            <p>Description : {{ $comic->description }}</p>
+            <p>{{ $comic->description }}</p>
             <br>
             <p>Uploaded by : {{ $comic->user->name }}</p>
             <br>
@@ -27,35 +27,43 @@
             <br>
             <p>Created at : {{ $comic->created_at }}</p>
             <p>Updated at : {{ $comic->updated_at }}</p>
-
+            <br>
             {{-- Delete Comic --}}
+            
             @auth
+            <div class="grid grid-cols-2 items-center">
             @if (Auth::id() === $comic->user->id )
                 <form action="{{ route('comic.delete', $comic->id) }}" method="POST">
-                @csrf
-                @method('DELETE')
+                    @csrf
+                    @method('DELETE')
 
-                <button type="submit" class="bg-red-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">Delete</button>
+                    <x-red-submit-btn text="Delete"/>
                 </form>
 
                 {{-- Update Comic --}}
-                <a href="{{ route('comic.update', $comic->id) }}"><button  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Update</button></a>
+                <form action="{{ route('comic.update', $comic->id) }}">
+                    @csrf
+                    <x-blue-submit-btn text="Update"/>
+                </form>
+                
             @endif
+            </div>
             @endauth
 
-            
+            </div>            
         </div>
     </div>
 
     <br>
+    
+    <h2 class="m-5 text-2xl font-bold font-sans">Pages</h2>
 
-    <div class="bg-amber-100 max-w-500 justify-center items-center">
+    <div class="inline-block p-5 rounded-2xl border-2 border-solid border-gray-300">
         <ul class="flex flex-wrap items-center text-center justify-center">
             @foreach ($pages as $page)
             <li>
-                <div class="aspect-2/3 max-w-35 mx-3"><a href="{{ route('comic.read', ['id' => $comic->id, 'page_number' =>$page->page_number]) }}"">
+                <div class="aspect-2/3 max-w-35 m-5"><a href="{{ route('comic.read', ['id' => $comic->id, 'page_number' => $page->page_number]) }}"">
                     <img src="{{ Storage::url($comic->path.'/pages/'.$page->filename) }}" alt="">
-                    <p>Page - {{ $page->page_number }}</p>
                 </a></div>
             </li>
             @endforeach

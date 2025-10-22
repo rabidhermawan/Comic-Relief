@@ -1,15 +1,16 @@
-<x-defaultlayout>
-    <div class="bg-amber-200 flex flex-wrap max-w-3/4 justify-center">
-        <h1>{{ $comic->title }}</h1>
-        
+<x-defaultlayout>    
+    <div class="flex flex-wrap justify-center">
         @foreach ($pages as $page)
-        <div class="">
-            <img src="{{ Storage::url($comic->path.'/pages/'.$page->filename) }}" alt="Page {{ $page->page_number }}">
+        <div class="aspect-2/3 max-h-screen">
+            <img class="pagetoread " src="{{ Storage::url($comic->path.'/pages/'.$page->filename) }}" alt="Page {{ $page->page_number }}">
         </div>
         
         @endforeach
 
-        <div class="mt-4 flex gap-2 justify-center">
+        
+    </div>
+    
+    <div class="mt-4 flex gap-2 justify-center">
              @if ($pages->currentPage() > 1)
                 <a href="{{ route('comic.read', ['id' => $comic->id, 'page_number' => $pages->currentPage() - 1]) }}" class="px-3 py-1 bg-gray-200 rounded">
                     Previous
@@ -27,6 +28,11 @@
                     Next
                 </a>
             @endif
-        </div>
     </div>
+
+    <script>
+        window.addEventListener('load', function() {
+            document.querySelector(".pagetoread")?.scrollIntoView();
+        });
+    </script>
 </x-defaultlayout>

@@ -2,3 +2,5 @@
 !.gitignore
 !placeholder/
 !placeholder/**
+!images/
+!images/**
